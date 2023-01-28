@@ -8,7 +8,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        window?.rootViewController = ViewController()
+//        window?.rootViewController = ViewController()
+        window?.rootViewController = HorizontalCollectionController(style: .plain)
         window?.makeKeyAndVisible()
     }
 

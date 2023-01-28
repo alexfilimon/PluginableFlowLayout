@@ -109,7 +109,7 @@ class BannerCell: UICollectionViewCell {
         debugLabel.translatesAutoresizingMaskIntoConstraints = false
         debugTopConstraint = debugLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
         NSLayoutConstraint.activate([
-            debugLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            debugLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             debugTopConstraint,
             debugLabel.bottomAnchor.constraint(equalTo: topGradientView.bottomAnchor, constant: -80)
         ])
@@ -134,12 +134,18 @@ class BannerCell: UICollectionViewCell {
         let idealFrameAndCollectionVisibility = pluginableLayoutAttributes.percentageInfo.idealFrameAndCollectionVisibility
 
         debugLabel.text = """
-        \(collectionVisibility?.roundedString() ?? "<none>")
-        \(idealFrameVisibility?.roundedString() ?? "<none>")
-        \(idealFrameAndCollectionVisibility?.roundedString() ?? "<none>")
+        collection: \(collectionVisibility?.roundedString() ?? "<none>")
+        idealFrame: \(idealFrameVisibility?.roundedString() ?? "<none>")
+        mixed: \(idealFrameAndCollectionVisibility?.roundedString() ?? "<none>")
         """
-        imageView.transform = .init(translationX: -(idealFrameAndCollectionVisibility ?? 0) * contentView.bounds.width, y: 0)
+        if pluginableLayoutAttributes.scrollDirection == .horizontal {
+            imageView.transform = .init(translationX: -(idealFrameAndCollectionVisibility ?? 0) * contentView.bounds.width, y: 0)
+        } else {
+            imageView.transform = .init(translationX: 0, y: -(idealFrameAndCollectionVisibility ?? 0) * contentView.bounds.height).scaledBy(x: 1.3, y: 1.3)
+        }
+
         dimmView.alpha = abs(idealFrameVisibility ?? 0) / 2
+        topGradientView.alpha = 1 - abs(idealFrameVisibility ?? 0)
 
         let titlePercentage = min(abs(idealFrameVisibility ?? 0) * 10, 1)
         titleLabel.alpha = 1 - titlePercentage
@@ -154,13 +160,20 @@ class BannerCell: UICollectionViewCell {
 
     func configure(
         banner: BannerViewModel,
-        safeArea: UIEdgeInsets
+        safeArea: UIEdgeInsets,
+        scrollDirection: UICollectionView.ScrollDirection
     ) {
         let image = UIImage(data: try! Data(contentsOf: Bundle.main.url(forResource: banner.imageName, withExtension: banner.imageExtension)!))
         imageView.image = image
         titleLabel.text = banner.title
-        debugTopConstraint.constant = safeArea.top + 10
-        titleBottomConstraint.constant = -safeArea.bottom - 10
+
+        if scrollDirection == .horizontal {
+            debugTopConstraint.constant = safeArea.top + 10
+            titleBottomConstraint.constant = -safeArea.bottom - 10
+        } else {
+            debugTopConstraint.constant = 20
+            titleBottomConstraint.constant = -20
+        }
     }
 
 }
@@ -169,41 +182,13 @@ struct BannerViewModel {
     let imageName: String
     let imageExtension: String
     let title: String
+    let description: String
 }
 
 class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private let banners: [BannerViewModel] = [
-        .init(
-            imageName: "1",
-            imageExtension: "jpg",
-            title: "Toronto"
-        ),
-        .init(
-            imageName: "2",
-            imageExtension: "jpg",
-            title: "Italy"
-        ),
-        .init(
-            imageName: "3",
-            imageExtension: "jpg",
-            title: "New-York"
-        ),
-        .init(
-            imageName: "4",
-            imageExtension: "jpg",
-            title: "New-York"
-        ),
-        .init(
-            imageName: "5",
-            imageExtension: "jpg",
-            title: "Toronto"
-        ),
-        .init(
-            imageName: "6",
-            imageExtension: "jpg",
-            title: "Golden Gate"
-        )
+        
     ]
 
     init() {
@@ -247,7 +232,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
         cell.configure(
             banner: banners[indexPath.row],
-            safeArea: UIApplication.shared.windows.first?.safeAreaInsets ?? .zero
+            safeArea: UIApplication.shared.windows.first?.safeAreaInsets ?? .zero,
+            scrollDirection: (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).scrollDirection
         )
 
         return cell
@@ -258,8 +244,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+//        return .init(
+//            width: collectionView.bounds.width,
+//            height: 400
+//        )
         return .init(
-            width: 200,
+            width: 250,
             height: collectionView.bounds.height
         )
     }
@@ -277,11 +267,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
+//        return .init(
+//            top: (collectionView.bounds.height - 400) / 2,
+//            left: 0,
+//            bottom: (collectionView.bounds.height - 400) / 2,
+//            right: 0
+//        )
         return .init(
             top: 0,
-            left: (collectionView.bounds.width - 200) / 2,
+            left: (collectionView.bounds.width - 250) / 2,
             bottom: 0,
-            right: (collectionView.bounds.width - 200) / 2
+            right: (collectionView.bounds.width - 250) / 2
         )
     }
 

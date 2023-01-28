@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5934F6FD29856155007449DB /* HorizontalCollectionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5934F6FC29856155007449DB /* HorizontalCollectionTableCell.swift */; };
 		59510B93297DDAD0003E77BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59510B92297DDAD0003E77BD /* AppDelegate.swift */; };
 		59510B95297DDAD0003E77BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59510B94297DDAD0003E77BD /* SceneDelegate.swift */; };
 		59510B97297DDAD0003E77BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59510B96297DDAD0003E77BD /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5934F6FC29856155007449DB /* HorizontalCollectionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionTableCell.swift; sourceTree = "<group>"; };
 		59510B8F297DDAD0003E77BD /* ExamplePluginableCollectionViewFlowLayout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamplePluginableCollectionViewFlowLayout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59510B92297DDAD0003E77BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59510B94297DDAD0003E77BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				59510B9B297DDAD1003E77BD /* Assets.xcassets */,
 				59510B9D297DDAD1003E77BD /* LaunchScreen.storyboard */,
 				59510BA0297DDAD1003E77BD /* Info.plist */,
+				5934F6FC29856155007449DB /* HorizontalCollectionTableCell.swift */,
 			);
 			path = ExamplePluginableCollectionViewFlowLayout;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5934F6FD29856155007449DB /* HorizontalCollectionTableCell.swift in Sources */,
 				59510B97297DDAD0003E77BD /* ViewController.swift in Sources */,
 				59510B93297DDAD0003E77BD /* AppDelegate.swift in Sources */,
 				59510B95297DDAD0003E77BD /* SceneDelegate.swift in Sources */,

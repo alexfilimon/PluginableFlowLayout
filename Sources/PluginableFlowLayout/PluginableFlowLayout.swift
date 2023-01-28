@@ -2,17 +2,20 @@ import UIKit
 
 open class PluginableFlowLayoutAttributes: UICollectionViewLayoutAttributes {
 
+    open var scrollDirection: UICollectionView.ScrollDirection!
+
     open var dictWithProperties: [String: AnyHashable] = [:]
 
     override open func copy(with zone: NSZone? = nil) -> Any {
         let copy = super.copy(with: zone) as? Self
         copy?.dictWithProperties = dictWithProperties
+        copy?.scrollDirection = scrollDirection
         return copy as Any
     }
 
     override open func isEqual(_ object: Any?) -> Bool {
         let attrs = object as? Self
-        if attrs?.dictWithProperties != dictWithProperties {
+        if attrs?.dictWithProperties != dictWithProperties || attrs?.scrollDirection != scrollDirection {
             return false
         }
         return super.isEqual(object)
@@ -76,6 +79,7 @@ open class PluginableFlowLayout: UICollectionViewFlowLayout {
                         sectionInset: sectionInset
                     )
                 }
+                mutableAttributes.scrollDirection = scrollDirection
                 return mutableAttributes
             })
     }
